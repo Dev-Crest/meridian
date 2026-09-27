@@ -197,16 +197,11 @@ export class BlendAdapterClient {
   }
 
   /**
-   * Borrow `amount` of `asset` against the caller's collateral position.
-   * `collateral` is accepted for API completeness; Blend V2 borrow uses the
-   * pool's existing collateral balances for `account`.
+   * Borrow `amount` of `asset` against the caller's existing collateral.
+   * Blend V2 draws on the pool's recorded collateral balances for
+   * `account`, so no collateral argument is needed.
    */
-  borrow(
-    asset: string,
-    amount: bigint,
-    account: string,
-    _collateral: string
-  ): Promise<BlendTx> {
+  borrow(asset: string, amount: bigint, account: string): Promise<BlendTx> {
     return buildPoolRequestTx(
       { ...this.config, assetId: asset || this.config.assetId },
       account,
@@ -273,7 +268,7 @@ export class BlendAdapterClient {
     const reserves = [...pool.reserves.keys()];
     return {
       poolId,
-      backstopRate: Number((pool as { config?: { backstopRate?: number } }).config?.backstopRate ?? 0),
+      backstopRate: Number(pool.metadata.backstopRate),
       reserveCount: reserves.length,
       reserves,
     };
