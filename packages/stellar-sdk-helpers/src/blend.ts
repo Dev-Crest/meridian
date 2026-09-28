@@ -242,12 +242,17 @@ export class BlendAdapterClient {
     const pool = await withRetry(() =>
       withBlendTimeout(() =>
         PoolV2.load(
-          { rpc: this.config.network.rpcUrl, passphrase: this.config.network.passphrase },
+          {
+            rpc: this.config.network.rpcUrl,
+            passphrase: this.config.network.passphrase,
+          },
           this.config.poolId
         )
       )
     );
-    const user = await withRetry(() => withBlendTimeout(() => pool.loadUser(account)));
+    const user = await withRetry(() =>
+      withBlendTimeout(() => pool.loadUser(account))
+    );
     const collRes = pool.reserves.get(collateralAsset);
     const borrowRes = pool.reserves.get(borrowedAsset);
     const collateral = collRes ? user.getCollateralFloat(collRes) : 0;
@@ -256,11 +261,16 @@ export class BlendAdapterClient {
     return collateral / borrowed;
   }
 
-  async getPoolInfo(poolId: string = this.config.poolId): Promise<BlendPoolInfo> {
+  async getPoolInfo(
+    poolId: string = this.config.poolId
+  ): Promise<BlendPoolInfo> {
     const pool = await withRetry(() =>
       withBlendTimeout(() =>
         PoolV2.load(
-          { rpc: this.config.network.rpcUrl, passphrase: this.config.network.passphrase },
+          {
+            rpc: this.config.network.rpcUrl,
+            passphrase: this.config.network.passphrase,
+          },
           poolId
         )
       )
@@ -281,12 +291,17 @@ export class BlendAdapterClient {
     const pool = await withRetry(() =>
       withBlendTimeout(() =>
         PoolV2.load(
-          { rpc: this.config.network.rpcUrl, passphrase: this.config.network.passphrase },
+          {
+            rpc: this.config.network.rpcUrl,
+            passphrase: this.config.network.passphrase,
+          },
           poolId
         )
       )
     );
-    const user = await withRetry(() => withBlendTimeout(() => pool.loadUser(account)));
+    const user = await withRetry(() =>
+      withBlendTimeout(() => pool.loadUser(account))
+    );
     const collateral: Record<string, number> = {};
     const liabilities: Record<string, number> = {};
     const supply: Record<string, number> = {};
@@ -301,4 +316,3 @@ export class BlendAdapterClient {
     return { account, poolId, collateral, liabilities, supply };
   }
 }
-

@@ -173,7 +173,6 @@ describe("fetchBlendPositions", () => {
   });
 });
 
-
 describe("BlendAdapterClient", () => {
   it("maps supply/withdraw to collateral request builders without hitting RPC", async () => {
     const { BlendAdapterClient } = await import("./blend");
@@ -214,9 +213,9 @@ describe("BlendAdapterClient", () => {
       assetId: USDC_ID,
       network,
     });
-    await expect(client.getHealthFactor(PUBKEY, USDC_ID, USDC_ID)).resolves.toBe(
-      Number.POSITIVE_INFINITY
-    );
+    await expect(
+      client.getHealthFactor(PUBKEY, USDC_ID, USDC_ID)
+    ).resolves.toBe(Number.POSITIVE_INFINITY);
   });
 
   it("getHealthFactor divides collateral by liabilities", async () => {
@@ -237,6 +236,8 @@ describe("BlendAdapterClient", () => {
       assetId: USDC_ID,
       network,
     });
-    await expect(client.getHealthFactor(PUBKEY, USDC_ID, USDC_ID)).resolves.toBe(4);
+    await expect(
+      client.getHealthFactor(PUBKEY, USDC_ID, USDC_ID)
+    ).resolves.toBe(4);
   });
 });
