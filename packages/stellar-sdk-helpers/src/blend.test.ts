@@ -82,7 +82,7 @@ const reserves = [
 
 function makePool(
   reserveMap: Map<string, object>,
-  userBalances: Record<string, { collateral: number; supply: number }>,
+  userBalances: Record<string, { collateral: number; supply: number }>
 ) {
   const fakePool = {
     reserves: reserveMap,
@@ -117,7 +117,7 @@ describe("blendAssetForVault", () => {
 
   it("throws for a vault id with no mapped reserve asset", () => {
     expect(() => blendAssetForVault("blend-xlm-fixed")).toThrow(
-      /no blend reserve asset/i,
+      /no blend reserve asset/i
     );
   });
 });
@@ -135,7 +135,7 @@ describe("fetchBlendPositions", () => {
       network,
       POOL_ID,
       PUBKEY,
-      reserves,
+      reserves
     );
     expect(result).toEqual([]);
     expect(pool.loadUser).toHaveBeenCalledWith(PUBKEY);
@@ -156,7 +156,7 @@ describe("fetchBlendPositions", () => {
       network,
       POOL_ID,
       PUBKEY,
-      reserves,
+      reserves
     );
     expect(result).toHaveLength(2);
     expect(result[0]).toMatchObject({
@@ -201,7 +201,7 @@ describe("fetchBlendPositions", () => {
       network,
       POOL_ID,
       PUBKEY,
-      reserves,
+      reserves
     );
     expect(result).toHaveLength(1);
     expect(result[0].vaultId).toBe("blend-usdc-fixed");
@@ -261,7 +261,7 @@ describe("Blend transaction builders", () => {
             amount: 500n,
           },
         ],
-      }),
+      })
     );
   });
 
@@ -269,7 +269,7 @@ describe("Blend transaction builders", () => {
     submitMock.mockClear();
 
     await expect(buildBlendDepositTx(config, PUBKEY, 0n)).rejects.toThrow(
-      /amount must be positive/i,
+      /amount must be positive/i
     );
     expect(submitMock).not.toHaveBeenCalled();
     expect(prepareSorobanTx).not.toHaveBeenCalled();
@@ -299,7 +299,7 @@ describe("BlendAdapterClient", () => {
           { request_type: requestType, address: EURC_ID, amount: 42n },
         ],
       });
-    },
+    }
   );
 
   it.each([
@@ -326,7 +326,7 @@ describe("BlendAdapterClient", () => {
           },
         ],
       });
-    },
+    }
   );
 
   it("getHealthFactor returns Infinity when liabilities are zero", async () => {
@@ -346,7 +346,7 @@ describe("BlendAdapterClient", () => {
     vi.mocked(PoolV2.load).mockResolvedValue(fakePool as never);
 
     await expect(
-      client.getHealthFactor(PUBKEY, USDC_ID, USDC_ID),
+      client.getHealthFactor(PUBKEY, USDC_ID, USDC_ID)
     ).resolves.toBe(Number.POSITIVE_INFINITY);
   });
 
@@ -364,7 +364,7 @@ describe("BlendAdapterClient", () => {
     vi.mocked(PoolV2.load).mockResolvedValue(fakePool as never);
 
     await expect(
-      client.getHealthFactor(PUBKEY, USDC_ID, USDC_ID),
+      client.getHealthFactor(PUBKEY, USDC_ID, USDC_ID)
     ).resolves.toBe(4);
   });
 
@@ -379,7 +379,7 @@ describe("BlendAdapterClient", () => {
     } as never);
 
     await expect(
-      client.getHealthFactor(PUBKEY, USDC_ID, EURC_ID),
+      client.getHealthFactor(PUBKEY, USDC_ID, EURC_ID)
     ).resolves.toBe(Number.POSITIVE_INFINITY);
   });
 
